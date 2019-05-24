@@ -9,6 +9,10 @@ var path = app.getPath('appData')
 var filepath = path + "/day-counter-data.json"
 var listArray = require(filepath)
 var list = [];
+var names = []
+var dates = []
+var counts = []
+var numbers = []
 
 var i
 var u
@@ -37,7 +41,7 @@ function daysSince(firstday) {
   var firstDate = new Date(firstday[0], firstday[1] - 1, firstday[2])
   var secondDate = new Date()
   var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)))
-  return diffDays -1
+  return diffDays - 1
 }
 
 function makeTwoDig(number) {
@@ -61,6 +65,7 @@ function createCounter() {
   list.push(newCounterArray)
   finishCounter()
   saveList()
+  createArrayLists()
   createList()
 }
 
@@ -68,6 +73,11 @@ function deleteCounter() {
   var dcnum = document.getElementById('dcnum').value
   dcnum = dcnum - 1
   list.splice(dcnum, 1)
+  names.splice(dcnum, 1)
+  dates.splice(dcnum, 1)
+  counts.splice(dcnum, 1)
+  numbers.splice(dcnum, 1)
+  createArrayLists()
   createList()
   saveList()
 }
@@ -78,18 +88,41 @@ function finishCounter() {
     list[i][2] = daysSince(list[i][0])
   }
 }
-finishCounter()
 
-function createList() {
-  document.getElementById('listloc').innerHTML = ''
+function createArrayLists() {
   for (i = 0; i < list.length; i++) {
-    var btn = []
-    btn[i] = document.createElement("li")
-    for (u = 1; u < 4; u++) {
-      btn[i].innerHTML += " " + list[i][u];
-    }
-      btn[i].innerHTML += ' ' + (i + 1)
-    document.getElementById('listloc').appendChild(btn[i]);
+    names[i] = (list[i][3])
+    dates[i] = (list[i][1])
+    counts[i] = (list[i][2])
+    numbers[i] = +i + 1
   }
 }
+
+function createList() {
+  var btn0 = []
+  var btn1 = []
+  var btn2 = []
+  var btn3 = []
+  document.getElementById('names').innerHTML = ''
+  document.getElementById('dates').innerHTML = ''
+  document.getElementById('counts').innerHTML = ''
+  document.getElementById('numbers').innerHTML = ''
+  for (i = 0; i < names.length; i++) {
+    btn0[i] = document.createElement("p")
+    btn0[i].innerHTML = names[i]
+    document.getElementById('names').appendChild(btn0[i]);
+    btn1[i] = document.createElement("p")
+    btn1[i].innerHTML = dates[i]
+    document.getElementById('dates').appendChild(btn1[i]);
+    btn2[i] = document.createElement("p")
+    btn2[i].innerHTML = counts[i]
+    document.getElementById('counts').appendChild(btn2[i]);
+    btn3[i] = document.createElement("p")
+    btn3[i].innerHTML = numbers[i]
+    document.getElementById('numbers').appendChild(btn3[i]);
+  }
+}
+finishCounter()
+saveList()
+createArrayLists()
 createList()

@@ -8,12 +8,49 @@
 
 <body>
   <h2>Your counters:</h2>
-  <ul id="listloc">
-  </ul>
+  <style>
+    * {
+        box-sizing: border-box;
+      }
+      .column {
+        float: left;
+        width: auto;
+        padding: 10px;
+      }
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+  </style>
+  <div class="row">
+    <div class="column">
+      <h2>Name</h2>
+      <div id="names"></div>
+    </div>
+    <div class="column">
+      <h2>Start date</h2>
+      <div id="dates"></div>
+    </div>
+    <div class="column">
+      <h2>Day count</h2>
+      <div id="counts"></div>
+    </div>
+    <div class="column">
+      <h2>#</h2>
+      <div id="numbers"></div>
+    </div>
+  </div>
+
+  <hr>
+
   <h4>Create new counter:</h4>
   <input type="date" id="date" placeholder="YYYY-MM-DD">
   <input type="text" id="name" placeholder="name...">
   <button onclick="createCounter()">create counter</button>
+  <br>
+  <br>
+  <hr>
   <h4>Delete a counter:</h4>
   <input type="number" id="dcnum" placeholder="counter # ...">
   <button onclick="deleteCounter()">delete counter</button>

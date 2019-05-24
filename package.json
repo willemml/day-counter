@@ -1,7 +1,7 @@
 {
   "name": "day-counter",
   "productName": "day-counter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An electron app that counts the days from or until a certain date.",
   "main": "src/index.js",
   "scripts": {

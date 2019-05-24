@@ -9,6 +9,10 @@ var path = app.getPath('appData')
 var filepath = path + "/day-counter-data.json"
 var listArray = require(filepath)
 var list = [];
+
+var i
+var u
+
 for (var i in listArray) {
   if (listArray.hasOwnProperty(i) && !isNaN(+i)) {
     list[+i] = listArray[i];
@@ -33,7 +37,7 @@ function daysSince(firstday) {
   var firstDate = new Date(firstday[0], firstday[1] - 1, firstday[2])
   var secondDate = new Date()
   var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)))
-  return diffDays -1 
+  return diffDays -1
 }
 
 function makeTwoDig(number) {

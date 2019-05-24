@@ -1,8 +1,8 @@
 {
   "name": "day-counter",
   "productName": "day-counter",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "1.0.2",
+  "description": "An electron app that counts the days from or until a certain date.",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -37,8 +37,8 @@
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
       "github_repository": {
-        "owner": "",
-        "name": ""
+        "owner": "willem",
+        "name": "day-counter"
       },
       "windowsStoreConfig": {
         "packageName": "",

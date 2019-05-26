@@ -1,12 +1,10 @@
 os: ubuntu
 dist: disco
-addons:
-  homebrew:
-    packages:
-    - yarn
-    - node
 language: node_js
 before_install:
+  - sudo apt-get install curl python-software-properties
+  - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+  - sudo apt-get install nodejs yarn
   - sudo npm i -g electron-forge
 script:
   - electron-forge make --platform=linux --arch=all

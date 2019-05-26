@@ -1,7 +1,7 @@
 os: ubuntu
 dist: disco
 language: node_js
-before_install:
+install:
   - sudo apt-get install curl python-software-properties
   - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
   - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -10,7 +10,6 @@ before_install:
   - sudo apt-get install nodejs yarn
   - sudo npm i -g electron-forge
   - sudo npm i -g yarn
-install:
   - yarn
 script:
   - electron-forge make --platform=linux --arch=all

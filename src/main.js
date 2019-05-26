@@ -7,7 +7,6 @@ const {
 var fs = require('fs')
 var path = app.getPath('appData')
 var filepath = path + "/day-counter-data.json"
-var listArray = require(filepath)
 var list = [];
 var names = []
 var dates = []
@@ -17,12 +16,6 @@ var numbers = []
 var i
 var u
 
-for (var i in listArray) {
-  if (listArray.hasOwnProperty(i) && !isNaN(+i)) {
-    list[+i] = listArray[i];
-  }
-}
-
 function saveList() {
   var listJSON = Object.assign({}, list)
   var listJSONstring = JSON.stringify(listJSON)
@@ -30,10 +23,25 @@ function saveList() {
   fs.writeFile(filepath, listJSONstring, (err) => {
     if (err) {
       console.log("An error ocurred creating the JSON file " + err.message)
+    } else {
+      console.log("The JSON file has been succesfully saved")
     }
-
-    console.log("The JSON file has been succesfully saved")
   })
+}
+
+try {
+  var listArray = require(filepath)
+} catch (e) {
+  if (e.code == 'MODULE_NOT_FOUND') {
+    saveList()
+  }
+}
+
+var listArray = require(filepath)
+for (var i in listArray) {
+  if (listArray.hasOwnProperty(i) && !isNaN(+i)) {
+    list[+i] = listArray[i];
+  }
 }
 
 function daysSince(firstday) {
@@ -123,6 +131,5 @@ function createList() {
   }
 }
 finishCounter()
-saveList()
 createArrayLists()
 createList()

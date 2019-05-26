@@ -1,0 +1,15 @@
+os: ubuntu
+dist: disco
+addons:
+  homebrew:
+    packages:
+    - yarn
+    - node
+language: node_js
+before_install:
+  - sudo npm i -g electron-forge
+script:
+  - electron-forge make --platform=linux --arch=all
+  - electron-forge make --platform=darwin --arch=all
+  - electron-forge make --platform=mas --arch=all
+  - electron-forge make --platform=win32 --arch=all

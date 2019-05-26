@@ -10,6 +10,8 @@ before_install:
   - sudo apt-get install nodejs yarn
   - sudo npm i -g electron-forge
   - sudo npm i -g yarn
+install:
+  - yarn
 script:
   - electron-forge make --platform=linux --arch=all
   - electron-forge make --platform=darwin --arch=all

@@ -4,10 +4,11 @@ language: node_js
 node_js:
   - "12"
 install:
+  - sudo apt-get install wine mono
   - yarn global add @electron-forge/cli
   - yarn
 script:
-  - electron-forge make --platform=linux --arch=all
-  - electron-forge make --platform=darwin --arch=all
-  - electron-forge make --platform=mas --arch=all
-  - electron-forge make --platform=win32 --arch=all
+  - electron-forge make --platform=linux
+  - electron-forge make --platform=darwin
+  - electron-forge make --platform=mas
+  - electron-forge make --platform=win32

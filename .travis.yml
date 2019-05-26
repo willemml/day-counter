@@ -3,8 +3,16 @@ dist: disco
 language: node_js
 node_js:
   - "12"
+addons:
+  apt:
+    packages:
+      - xvfb
+      - fakeroot
+      - mono-complete
+      - wine
 install:
-  - sudo apt-get install wine mono-complete fakeroot
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
   - yarn global add @electron-forge/cli
   - yarn
 script:

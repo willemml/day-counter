@@ -4,7 +4,7 @@ language: node_js
 node_js:
   - "12"
 install:
-  - sudo apt-get install wine mono
+  - sudo apt-get install wine mono-complete
   - yarn global add @electron-forge/cli
   - yarn
 script:

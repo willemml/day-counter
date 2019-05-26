@@ -9,40 +9,42 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint src --color",
-    "postinstall": "install-app-deps",
-    "dist": "npm run build && build --publish onTagOrDraft"
+    "lint": "eslint src --color"
   },
   "keywords": [],
   "author": "willem",
   "license": "MIT",
-  "build": {
-    "appId": "day-counter",
-    "category": "public.app-category.utility",
-    "files": ["dist/", "node_modules/", "src/", "package.json", "README.md"],
-    "dmg": {
-      "contents": [{
-        "x": 130,
-        "y": 220
-      }, {
-        "x": 410,
-        "y": 220,
-        "type": "link",
-        "path": "/Applications"
-      }]
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": ["AppImage", "deb"]
-    },
-    "directories": {
-      "output": "release"
-    },
-    "name": "Day Counter",
-    "author": "Willem Leitso",
-    "url": "https://github.com/wnuke/day-counter"
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "yarn"
+      },
+      "electronWinstallerConfig": {
+        "name": "day_counter"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "willem",
+        "name": "day-counter"
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "daycounter"
+      }
+    }
   },
   "dependencies": {
     "electron-compile": "^6.4.4",

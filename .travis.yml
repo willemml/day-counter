@@ -25,8 +25,8 @@ script:
       -v ~/.cache/electron-builder:/root/.cache/electron-builder \
       electronuserland/builder:wine \
       /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn build --linux --win"
-  yarn lint
-  yarn build
+- yarn lint
+- yarn build
 
 before_cache:
 - rm -rf $HOME/.cache/electron-builder/wine

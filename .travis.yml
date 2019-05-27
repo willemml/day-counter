@@ -1,46 +1,59 @@
 sudo: required
 matrix:
   include:
-    - os: osx
-      osx_image: xcode9.4
-      language: node_js
-      node_js: "12"
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
-    - os: linux
-      language: node_js
-      node_js: "12"
-      env:
-      - ELECTRON_CACHE=$HOME/.cache/electron
-      - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-      services: docker
-      language: generic
-
+  - os: osx
+    osx_image: xcode9.4
+    language: node_js
+    node_js: '12'
+    env:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - secure: NXTUEgqsq1awAY22TkB8ed16RSknUVCdzR8srPv0CSdEcQy6aM7YjLcLNPX3CnazdB8V1WrKwdE4CLVQlJnhHdtBabj+wHznFT1dPUdINrxEkpbpcKGx17blRh8JI1MkTsxYmf9sT4mMoOGlNjmYPSLBkFrA/tBirYr6KpfwTVUGYq5fLGyTgNvdmL4SuXeSRBIdKrWab6Rsbz0dkciK9e+nWx/HBlelkP8edRYS3xp0YUn8edmKmfpXO5fcj5nt26G3jNWilgfr51HpfXPgtpyUZWz+V70RJudJXn0N8XAI1ksAOYwBL5WbYuJ98Nrz7wq/jpv8S+PUgvqFNev9Dhw17SVcVVwBRCwcxrwzwZykAfUSTY+ABPSj2yZ3mEYh9ok4FIzrv9cFH0bUiQv1DX/B3uvYcXbXEtD/V3ktHO3Sc4oSOUNaYKebcK0lFqTOXegzN33bjIhRfyhM9r4emgDaTGlB55U8Zk+uwd2ocj7eHfZw7q1gSvex80FFP7ZxjHGcJvX2BZ5QojfZ1Jh5UX+sdHzMMRz4NztVcv7HzhzGj38x3MkBT/KOySVt5I//jXqfRUyclOI34LnD0jT5nkoayjWMNWBWo+MNIGjvcQHDJj5ssLD0kssxLxP1krynd83dYwrqY+br1537l7qEs3sam+MgIl3BEQIdf7d+Sm4=
+  - os: linux
+    language: generic
+    node_js: '12'
+    env:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - secure: NXTUEgqsq1awAY22TkB8ed16RSknUVCdzR8srPv0CSdEcQy6aM7YjLcLNPX3CnazdB8V1WrKwdE4CLVQlJnhHdtBabj+wHznFT1dPUdINrxEkpbpcKGx17blRh8JI1MkTsxYmf9sT4mMoOGlNjmYPSLBkFrA/tBirYr6KpfwTVUGYq5fLGyTgNvdmL4SuXeSRBIdKrWab6Rsbz0dkciK9e+nWx/HBlelkP8edRYS3xp0YUn8edmKmfpXO5fcj5nt26G3jNWilgfr51HpfXPgtpyUZWz+V70RJudJXn0N8XAI1ksAOYwBL5WbYuJ98Nrz7wq/jpv8S+PUgvqFNev9Dhw17SVcVVwBRCwcxrwzwZykAfUSTY+ABPSj2yZ3mEYh9ok4FIzrv9cFH0bUiQv1DX/B3uvYcXbXEtD/V3ktHO3Sc4oSOUNaYKebcK0lFqTOXegzN33bjIhRfyhM9r4emgDaTGlB55U8Zk+uwd2ocj7eHfZw7q1gSvex80FFP7ZxjHGcJvX2BZ5QojfZ1Jh5UX+sdHzMMRz4NztVcv7HzhzGj38x3MkBT/KOySVt5I//jXqfRUyclOI34LnD0jT5nkoayjWMNWBWo+MNIGjvcQHDJj5ssLD0kssxLxP1krynd83dYwrqY+br1537l7qEs3sam+MgIl3BEQIdf7d+Sm4=
+    services: docker
 cache:
   yarn: true
   directories:
-    - node_modules
-    - $HOME/.cache/electron
-    - $HOME/.cache/electron-builder
-
+  - node_modules
+  - "$HOME/.cache/electron"
+  - "$HOME/.cache/electron-builder"
 script:
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      docker run --rm \
-        -v ${PWD}:/project \
-        -v ~/.cache/electron:/root/.cache/electron \
-        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-        electronuserland/builder:wine \
-        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn build --linux --win"
-    else
-      yarn lint
-      yarn build
-    fi
+- |
+  if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+    docker run --rm \
+      -v ${PWD}:/project \
+      -v ~/.cache/electron:/root/.cache/electron \
+      -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+      electronuserland/builder:wine \
+      /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn build --linux --win"
+  else
+    yarn lint
+    yarn build
+  fi
 before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
-
+- rm -rf $HOME/.cache/electron-builder/wine
 branches:
   except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+  - "/^v\\d+\\.\\d+\\.\\d+$/"
+before_deploy:
+- git config --local user.name "wnuke"
+- git config --local user.email $GITEMAIL
+- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+- git tag $TRAVIS_TAG
+deploy:
+  provider: releases
+  api_key:
+    secure: gQMNuaffkJlpdPKz5Q5zpHntLMhGw44nb7faoqh25ISj4INzLelEnF8qONfO31aFbd80/qycWB4GdhkjvNXl1gvfyg6zEGvGppGMZWg9JBuXxkOK+QZYDUtfXa8SGlYrhbsnKDsTvNu4hbkp9nGHmmn3TOIUorKGQdFUXfMiuuAtN5lvocuNBt/S6qT0CXac/2+XAIGpAf+X5rF432HFfSXcDcX7Smxw+wBq3ETmzQaMFzEqEA5E4Y11TEmJ77r/RTWR9QMFW+WUtmXjpT6n6Ap9tbv1RAcV/o7PPfNXUz9Qw/vv6S5zWPPRwahfNNpBI6Xo3OoHIMMbnzl9UTCDF8CpJO/rjmyhxQWiJ5SgJ3+ujLnMN+5u/dImfLC7hsi6hD+Fz8SJnu9Zo8FQvDBae3eg0bPw93g52CMGHq/A3RGmIzCjsuaRxi5t2GOTBsOESIo3udRHvxTTg7xSuCfR9jrQiszpXwzMnvhsIpzVNq+qO4MO2PBoZKRPAuM+sFXOz8IooQLaI8ZXyx5BaandBa4ndmhHvVmorv9JPJf97PfmZ2RP2bgloSdufm2RexHAAKR3Ne/ejptT6LA95MHJQWdwhGUZpbaFIA72QIfFKop4NlVJkmlXPsvsCzz+txnBI1XLr/+2JCMtNudqvog+kIruBy/pmZ0lnvPdA5OrTDA=
+  file:
+  - Day\ Counter-1.0.5.dmg
+  - Day\ Counter-1.0.5-mac.zip
+  - day-counter_1.0.5_amd64.snap
+  on:
+    tags: true
+    repo: wnuke/day-counter

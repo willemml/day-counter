@@ -8,7 +8,10 @@ matrix:
     env:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-    services: docker
+    addons:
+      homebrew:
+        packages:
+          - docker
 cache:
   yarn: true
   directories:

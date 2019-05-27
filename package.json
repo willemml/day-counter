@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "lint": "eslint src --color",
-    "build": "electron-builder build",
+    "build": "electron-builder build"
   },
   "build": {
     "appId": "com.willem.day-counter",
@@ -16,7 +16,7 @@
       "output": "release"
     },
     "mac": {
-    "category": "public.app-category.utility"
+      "category": "public.app-category.utility"
     }
   },
   "repository": "https://github.com/wnuke/day-counter",

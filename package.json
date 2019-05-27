@@ -1,66 +1,30 @@
 {
   "name": "day-counter",
-  "productName": "day-counter",
-  "version": "1.0.4",
-  "description": "An electron app that counts the days from or until a certain date.",
-  "main": "src/index.js",
+  "productName": "Day Counter",
+  "category": "public.app-category.utility",
+  "appId": "com.willem.day-counter",
+  "version": "1.0.5",
+  "description": "An electron app that counts days from or to a certain date.",
+  "main": "src/main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint src --color"
+    "start": "electron .",
+    "lint": "eslint src --color",
+    "build": "electron-builder"
   },
-  "keywords": [],
-  "author": "willem",
-  "license": "MIT",
-  "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "yarn"
-      },
-      "electronWinstallerConfig": {
-        "name": "day_counter"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "willem",
-        "name": "day-counter"
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "daycounter"
-      }
+  "build": {
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
     }
   },
-  "dependencies": {
-    "electron-compile": "^6.4.4",
-    "electron-squirrel-startup": "^1.0.0"
-  },
+  "repository": "https://github.com/wnuke/day-counter",
+  "author": "Willem Leitso",
+  "license": "MIT",
   "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "electron": "^5.0.2",
     "electron-builder": "^20.41.0",
-    "electron-forge": "^5.2.4",
-    "electron-prebuilt-compile": "4.0.0",
-    "eslint": "^3",
-    "eslint-config-airbnb": "^15",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-jsx-a11y": "^5",
-    "eslint-plugin-react": "^7"
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "spectron": "^5.0.0"
   }
 }

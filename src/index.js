@@ -1,57 +1,130 @@
-import { app, BrowserWindow } from 'electron';
+const {
+  app
+} = require('electron').remote;
+var fs = require('fs')
+var path = app.getPath('appData')
+var filepath = path + '/day-counter-data.json'
+var list = [];
+var names = []
+var dates = []
+var counts = []
+var numbers = []
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
-  app.quit();
+function saveList() {
+  var listJSON = Object.assign({}, list)
+  var listJSONstring = JSON.stringify(listJSON)
+
+  fs.writeFile(filepath, listJSONstring, (err) => {
+    if (err) {
+      // console.log('An error ocurred creating the JSON file ' + err.message)
+    } else {
+      // console.log('The JSON file has been succesfully saved')
+    }
+  })
 }
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-
-const createWindow = () => {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-  });
-
-  // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
-};
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
-
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
+try {
+  var listArray = require(filepath)
+} catch (e) {
+  if (e.code == 'MODULE_NOT_FOUND') {
+    saveList()
   }
-});
+}
 
-app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
+for (var i in listArray) {
+  if (listArray.hasOwnProperty(i) && !isNaN(+i)) {
+    list[+i] = listArray[i];
   }
-});
+}
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+function daysSince(firstday) {
+  var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  var firstDate = new Date(firstday[0], firstday[1] - 1, firstday[2])
+  var secondDate = new Date()
+  var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)))
+  return diffDays - 1
+}
+
+function makeTwoDig(number) {
+  if (number < 10) {
+    return '0' + number
+  } else {
+    return number
+  }
+}
+
+/*eslint-disable */
+function createCounter() {
+  var date = document.getElementById('date').value;
+  date = date.split('-');
+  var dateArray = new Array();
+  for (var i = 0; i < date.length; i++) {
+    dateArray.push(date[i]);
+  }
+  var name = document.getElementById('name').value
+  var newCounterArray = [date, 'date', 'days_since', name]
+  newCounterArray[0][1] = newCounterArray[0][1]
+  list.push(newCounterArray)
+  finishCounter()
+  saveList()
+  createArrayLists()
+  createList()
+}
+
+function deleteCounter() {
+  var dcnum = document.getElementById('dcnum').value
+  dcnum = dcnum - 1
+  list.splice(dcnum, 1)
+  names.splice(dcnum, 1)
+  dates.splice(dcnum, 1)
+  counts.splice(dcnum, 1)
+  numbers.splice(dcnum, 1)
+  createArrayLists()
+  createList()
+  saveList()
+}
+/*eslint-enable */
+
+function finishCounter() {
+  for (var i = 0; i < list.length; i++) {
+    list[i][1] = makeTwoDig(JSON.stringify(+list[i][0][0])) + '-' + makeTwoDig(JSON.stringify(+list[i][0][1])) + '-' + makeTwoDig(JSON.stringify(+list[i][0][2]))
+    list[i][2] = daysSince(list[i][0])
+  }
+}
+
+function createArrayLists() {
+  for (var i = 0; i < list.length; i++) {
+    names[i] = (list[i][3])
+    dates[i] = (list[i][1])
+    counts[i] = (list[i][2])
+    numbers[i] = +i + 1
+  }
+}
+
+function createList() {
+  var btn0 = []
+  var btn1 = []
+  var btn2 = []
+  var btn3 = []
+  document.getElementById('names').innerHTML = ''
+  document.getElementById('dates').innerHTML = ''
+  document.getElementById('counts').innerHTML = ''
+  document.getElementById('numbers').innerHTML = ''
+  for (var i = 0; i < names.length; i++) {
+    btn0[i] = document.createElement("p")
+    btn0[i].innerHTML = names[i]
+    document.getElementById('names').appendChild(btn0[i]);
+    btn1[i] = document.createElement("p")
+    btn1[i].innerHTML = dates[i]
+    document.getElementById('dates').appendChild(btn1[i]);
+    btn2[i] = document.createElement("p")
+    btn2[i].innerHTML = counts[i]
+    document.getElementById('counts').appendChild(btn2[i]);
+    btn3[i] = document.createElement("p")
+    btn3[i].innerHTML = numbers[i]
+    document.getElementById('numbers').appendChild(btn3[i]);
+  }
+}
+finishCounter()
+createArrayLists()
+createList()

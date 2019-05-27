@@ -1,20 +1,22 @@
 {
   "name": "day-counter",
   "productName": "Day Counter",
-  "category": "public.app-category.utility",
-  "appId": "com.willem.day-counter",
   "version": "1.0.5",
   "description": "An electron app that counts days from or to a certain date.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "lint": "eslint src --color",
-    "build": "electron-builder"
+    "build": "electron-builder build",
   },
   "build": {
+    "appId": "com.willem.day-counter",
     "directories": {
       "buildResources": "build",
       "output": "release"
+    },
+    "mac": {
+    "category": "public.app-category.utility"
     }
   },
   "repository": "https://github.com/wnuke/day-counter",

@@ -31,8 +31,8 @@ deploy:
     - release/day-counter-mac.zip
     - release/day-counter-mac.dmg
     - release/day-counter-mac.dmg.blockmap
+    - release/day-counter-linux.AppImage
     - release/day-counter-linux.snap
-    - release/day-counter-linux.zip
     - release/day-counter-win.exe
     - release/day-counter-win.exe.blockmap
   on:

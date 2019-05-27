@@ -41,19 +41,18 @@ before_cache:
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
-before_deploy:
-- git config --local user.name "wnuke"
-- git config --local user.email $GITEMAIL
-- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-- git tag $TRAVIS_TAG
 deploy:
   provider: releases
+  draft: true
   api_key:
     secure: gQMNuaffkJlpdPKz5Q5zpHntLMhGw44nb7faoqh25ISj4INzLelEnF8qONfO31aFbd80/qycWB4GdhkjvNXl1gvfyg6zEGvGppGMZWg9JBuXxkOK+QZYDUtfXa8SGlYrhbsnKDsTvNu4hbkp9nGHmmn3TOIUorKGQdFUXfMiuuAtN5lvocuNBt/S6qT0CXac/2+XAIGpAf+X5rF432HFfSXcDcX7Smxw+wBq3ETmzQaMFzEqEA5E4Y11TEmJ77r/RTWR9QMFW+WUtmXjpT6n6Ap9tbv1RAcV/o7PPfNXUz9Qw/vv6S5zWPPRwahfNNpBI6Xo3OoHIMMbnzl9UTCDF8CpJO/rjmyhxQWiJ5SgJ3+ujLnMN+5u/dImfLC7hsi6hD+Fz8SJnu9Zo8FQvDBae3eg0bPw93g52CMGHq/A3RGmIzCjsuaRxi5t2GOTBsOESIo3udRHvxTTg7xSuCfR9jrQiszpXwzMnvhsIpzVNq+qO4MO2PBoZKRPAuM+sFXOz8IooQLaI8ZXyx5BaandBa4ndmhHvVmorv9JPJf97PfmZ2RP2bgloSdufm2RexHAAKR3Ne/ejptT6LA95MHJQWdwhGUZpbaFIA72QIfFKop4NlVJkmlXPsvsCzz+txnBI1XLr/+2JCMtNudqvog+kIruBy/pmZ0lnvPdA5OrTDA=
   file:
-  - Day\ Counter-1.0.5.dmg
-  - Day\ Counter-1.0.5-mac.zip
-  - day-counter_1.0.5_amd64.snap
+    - day-counter-mac.zip
+    - day-counter-mac.dmg
+    - day-counter-mac.dmg.blockmap
+    - day-counter-linux.snap
+    - day-counter-linux.zip
+    - day-counter-win.exe
+    - day-counter-win.exe.blockmap
   on:
-    tags: true
     repo: wnuke/day-counter

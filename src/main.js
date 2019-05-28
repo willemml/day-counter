@@ -19,16 +19,18 @@ function createWindow() {
     },
     "width": 800
   })
+  /*eslint-disable */
   mainWindow.webContents.on('new-window', function(e, url) {
     // make sure local urls stay in electron perimeter
     if ('file://' === url.substr(0, 'file://'.length)) {
-      return;
+      return
     }
 
     // and open every other protocols on the browser
-    e.preventDefault();
-    require('electron').shell.openExternal(url);
-  });
+    e.preventDefault()
+    require('electron').shell.openExternal(url)
+  })
+  /*eslint-enable */
   // and load the index.html of the app.
   mainWindow.loadFile(`${__dirname}/index.html`)
 

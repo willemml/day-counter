@@ -1,5 +1,8 @@
 // modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {
+  app,
+  BrowserWindow
+} = require('electron')
 
 /*
  * keep a global reference of the window object, if you don't, the window will
@@ -7,7 +10,7 @@ const {app, BrowserWindow} = require('electron')
  */
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   // create the browser window.
   mainWindow = new BrowserWindow({
     "height": 600,
@@ -16,7 +19,16 @@ function createWindow () {
     },
     "width": 800
   })
+  mainWindow.webContents.on('new-window', function(e, url) {
+    // make sure local urls stay in electron perimeter
+    if ('file://' === url.substr(0, 'file://'.length)) {
+      return;
+    }
 
+    // and open every other protocols on the browser
+    e.preventDefault();
+    require('electron').shell.openExternal(url);
+  });
   // and load the index.html of the app.
   mainWindow.loadFile(`${__dirname}/index.html`)
 
@@ -52,8 +64,8 @@ app.on('window-all-closed', () => {
    * to stay active until the user quits explicitly with Cmd + Q
    */
   if (process.platform !== 'darwin') {
- app.quit()
-}
+    app.quit()
+  }
 })
 
 app.on('activate', () => {
@@ -63,8 +75,8 @@ app.on('activate', () => {
    * dock icon is clicked and there are no other windows open.
    */
   if (mainWindow === null) {
- createWindow()
-}
+    createWindow()
+  }
 })
 
 /*

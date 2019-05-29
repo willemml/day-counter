@@ -28,7 +28,7 @@
     }
   },
   "repository": "https://github.com/wnuke/day-counter",
-  "author": "Willem Leitso",
+  "author": "willem",
   "license": "MIT",
   "devDependencies": {
     "electron": "^5.0.2",

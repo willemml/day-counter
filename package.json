@@ -13,7 +13,6 @@
   "build": {
     "appId": "com.willem.day-counter",
     "directories": {
-      "buildResources": "build",
       "output": "release"
     },
     "mac": {
